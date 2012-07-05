@@ -1,0 +1,34 @@
+<%= javascript_tag do %>
+  $(function() {
+      // Create a new client to connect to Faye
+      var client = new Faye.Client('http://localhost:9292/faye');
+   
+      // Subscribe to the public channel
+      var public_subscription = client.subscribe('/messages/ping_output', function(data) {
+        $('#output').append(data.output + '<br />');
+      });
+
+      // Handle form submissions and post messages to faye
+      $('#new_ping_form').submit(function(){
+        // Publish the message to the public channel
+        client.publish('/messages/ping_input', {
+          ip: $('#ip').val()
+        });
+   
+        // Clear the message box
+        $('#ip').val('');
+   
+        // Don't actually submit the form, otherwise the page will refresh.
+        return false;
+      });
+    });
+
+<% end %>
+
+<div id="output">
+</div>
+ 
+<form id="new_ping_form">
+  <input type="text" id="ip" name="ip">
+  <input type="submit" value="Send">
+</form>

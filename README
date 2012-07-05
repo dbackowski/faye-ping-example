@@ -1,0 +1,4 @@
+Simple faye realtime ping example.
+
+Run "rails s" to start rails web server, then run "rackup faye.ru -s thin" in second terminal.
+Go to http://127.0.0.1:3000 
